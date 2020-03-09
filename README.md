@@ -1,0 +1,2 @@
+# ifpi-ads-algoritmos2020
+Disciplina_Algoritmo_e_Programação
