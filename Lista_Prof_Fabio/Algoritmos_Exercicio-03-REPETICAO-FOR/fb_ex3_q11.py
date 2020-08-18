@@ -1,3 +1,5 @@
+# OBSERVAÇÃO PARA ESTE ALGORITMO: FALTA EU AINDA CONLCUIR
+
 def main():
     limite_inferior = int(input('Informe um valor para ser o limite inferior: '))
     limite_superior = int(input('Informe um valor para ser o limite superior: '))

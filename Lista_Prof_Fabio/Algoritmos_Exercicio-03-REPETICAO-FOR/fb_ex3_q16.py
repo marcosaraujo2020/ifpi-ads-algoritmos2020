@@ -12,3 +12,4 @@ for c in range(2, numero):
     n1 = n2
     n2 = n3
 print('Fim')
+print('')
