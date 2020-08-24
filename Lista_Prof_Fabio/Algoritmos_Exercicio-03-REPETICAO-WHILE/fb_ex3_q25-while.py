@@ -27,8 +27,7 @@ def main():
         elif codigo == 0:
             votos_branco += 1
         else:
-            print('Código inválido!!')
-            return main()
+            print('Código inválido!!')    
         votacao = str(input('A votação encerrou? [S/N] ')).upper().split()[0]
         if votacao == 'S':
             break
