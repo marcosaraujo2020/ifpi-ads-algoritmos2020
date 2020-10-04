@@ -36,6 +36,12 @@ def main():
             remover_posicao_especifica(vetor)
         if opcao == 7:
             inserir_valor_posicao_especifica(vetor)
+        if opcao == 8:
+            quantidade_pares(vetor)
+        if opcao == 9:
+            quantidade_impares(vetor)
+        if opcao == 14:
+            limpar_lista(vetor)
         if opcao == 0:
             break
         if opcao < 0 or opcao > 14:
@@ -80,6 +86,26 @@ def inserir_valor_posicao_especifica(nova_colecao):
     valor = int(input('Qual o valor deseja inserir? '))
     nova_colecao.insert(posicao, valor)
     print(f'O valor {valor} foi inserido na posião {posicao} da lista')
+
+
+def quantidade_pares(vetor):
+    quant_pares = 0
+    for i in range(len(vetor)):
+        if vetor[i] % 2 == 0:
+            quant_pares += 1
+    print(f'A lista contem {quant_pares} números pares')
+
+
+def quantidade_impares(new_list):
+    quant_impares = 0
+    for i in range(len(new_list)):
+        if new_list[i] % 2 != 0:
+            quant_impares += 1
+    print(f'A lista contem {quant_impares} números ímpares')
+
+
+def limpar_lista(colecao_nova):
+    del colecao_nova[:]
 
 
 main()
