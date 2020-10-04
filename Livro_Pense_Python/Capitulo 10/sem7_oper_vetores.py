@@ -10,8 +10,8 @@ def main():
         + ' 8- Quantidade de Pares\n' \
         + ' 9- Quantidade de Ímpares\n' \
         + '10- Quantidade de Positivos\n' \
-        + '11- Média dos Valores \n' \
-        + '12- Contar ocorrências de um dado valor \n' \
+        + '11- Quantidade de Negativos \n' \
+        + '12- Média dos Valores \n' \
         + '13- Dobrar todos os valores múltiplos de 2 \n' \
         + '14- Apagar todos os valores.\n' \
         + ' 0- Para sair....\n' \
@@ -40,6 +40,14 @@ def main():
             quantidade_pares(vetor)
         if opcao == 9:
             quantidade_impares(vetor)
+        if opcao == 10:
+            quantidade_positivos(vetor)
+        if opcao == 11:
+            quantidade_negativos(vetor)
+        if opcao == 12:
+            media_valores(vetor)
+        if opcao == 13:
+            multiplos_dois(vetor)
         if opcao == 14:
             limpar_lista(vetor)
         if opcao == 0:
@@ -58,9 +66,13 @@ def novos_valores(lista):
 
 def posicao_especifica(vetor):
     posicao = int(input('Informe a posição da lista: '))
-    for i in range(len(vetor)):
-        if posicao == i:
-            print(f'O valor da posição {posicao} da lista é {vetor[i]}')
+    if posicao >= 0 and posicao < len(vetor):
+        for i in range(len(vetor)):
+            if posicao == i:
+                print(f'O valor na posição {posicao} da lista é {vetor[i]}')
+    else:
+        print('Posição inexistente na lista')
+        return posicao_especifica(vetor)
 
 
 def todos_valores(colecao):
@@ -78,7 +90,11 @@ def remover_valor_final(novo_vetor):
 
 def remover_posicao_especifica(vetor):
     pos = int(input('Informe a posicao da lista para remover o valor: '))
-    print(f'O valor {vetor.pop(pos)} da posião {pos} foi removido da lista')
+    if pos >= 0 and pos < len(vetor):
+        print(f'O valor {vetor.pop(pos)} da posião {pos} foi removido da lista')
+    else:
+        print('Posição inexistente na lista')
+        return remover_posicao_especifica(vetor)
 
 
 def inserir_valor_posicao_especifica(nova_colecao):
@@ -103,6 +119,35 @@ def quantidade_impares(new_list):
             quant_impares += 1
     print(f'A lista contem {quant_impares} números ímpares')
 
+
+def quantidade_positivos(vetor):
+    quant_positivos = 0
+    for i in range(len(vetor)):
+        if vetor[i] > 0:
+            quant_positivos += 1
+    print(f'A lista contem {quant_positivos} números positivos')
+
+
+def quantidade_negativos(vetor):
+    quant_negativos = 0
+    for i in range(len(vetor)):
+        if vetor[i] < 0:
+            quant_negativos += 1
+    print(f'A lista contem {quant_negativos} números negativos')
+
+
+def media_valores(vetor):
+    soma = 0
+    for i in range(len(vetor)):
+        soma += vetor[i]
+    media = soma / len(vetor)
+    print(f'A média dos valores da lista é: {media}')
+
+
+def multiplos_dois(vetor):
+    for i in range(len(vetor)):
+        if vetor[i] % 2 == 0:
+            vetor[i] = vetor[i] * 2
 
 def limpar_lista(colecao_nova):
     del colecao_nova[:]
