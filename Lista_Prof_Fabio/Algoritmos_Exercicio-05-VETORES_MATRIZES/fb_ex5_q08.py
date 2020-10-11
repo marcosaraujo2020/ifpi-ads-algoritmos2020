@@ -29,5 +29,4 @@ def maior_menor(lista):
     
     return maior, index_maior, menor, index_menor
 
-
 main()

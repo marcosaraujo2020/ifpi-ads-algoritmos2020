@@ -6,12 +6,14 @@ def main():
         vetor.append(int(input('Informe um numero para a lista: ')))
         i += 1
     analisar = verificar_elementos(vetor)
+
+    print('=='*20)
     print(f'Lista de números >> {vetor}')
     if analisar == True:
         print('Nessa lista contém elementos iguais')
     else:
         print('Não contém elementos iguais na lista')
-
+    print('=='*20)
 
 def verificar_elementos(lista):
     i = 0
