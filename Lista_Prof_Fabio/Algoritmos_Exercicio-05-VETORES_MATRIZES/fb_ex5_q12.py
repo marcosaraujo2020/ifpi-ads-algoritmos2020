@@ -10,6 +10,10 @@ def main():
         i += 1
 
     print('=='*30)
+    for c in matriz:
+        print(c)
+
+    print()
     verificar = diagonal_principal(matriz)
     analisar = diagonal_secundaria(matriz)
     calcular = soma_demais_valores(matriz)
