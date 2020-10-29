@@ -1,0 +1,170 @@
+import os
+import json
+
+def main():
+    # Inicializar
+    #livros = list()
+
+    arquivo = 'livros.bd'
+    libros = inicializar(arquivo)   
+
+    menu = tela_opcoes()
+    opcao = int(input(menu))
+
+    while opcao != 0:
+        if opcao == 1:
+            livro = novo_livro()
+            libros.append(livro)
+
+        elif opcao == 2:
+            conferir_livros = listar_livros(libros)
+
+        elif opcao == 3:
+            busca = consultar_livros(libros)
+
+        input('tecle <enter> para continuar...')
+        opcao = int(input(menu))
+
+    finalizar(arquivo, libros)
+
+
+def tela_opcoes():
+    menu = '======= App Book ======= \n' \
+        + '1 - Cadastrar novo livro \n' \
+        + '2 - Listar Livros \n' \
+        + '3 - Consultar Livros \n' \
+        + '0 - Finalizar Aplicativo \n' \
+        + '======================== \n' \
+        + 'opção >>> '
+    
+    return menu
+
+
+def novo_livro():
+    print('<< Preencha os dados para cadastrar novo livro >> \n')
+    nome = str(input('Nome do livro: ')).capitalize()
+    editora = str(input('Editora: ')).capitalize()
+    volume = str(input('Volume: '))
+    ano = int(input('Ano de publicação: '))
+    valor = float(input('Qual o valor? R$ '))
+    digital = str(input('Livro digital? [Sim/Nao] ')).capitalize()
+    quant_autor = int(input('Quantos autores tem esse livro? '))
+    autores = list()
+    
+    for i in range(quant_autor):
+        autor = str(input(f'Nome do {i+1}º autor? ')).capitalize()
+        autores.append(autor)
+    
+    livro = {
+        'nome': nome,
+        'editora': editora,
+        'volume': volume,
+        'ano': ano,
+        'valor': valor,
+        'digital': digital,
+        'autores': autores
+    }
+
+    print('Livro cadastrado!')
+    return livro
+
+
+def listar_livros(colecao):
+    quant = len(colecao)
+    print('===== Confira a coleção de nossos livros ===== \n')
+    print(f'Temos {quant} livros disponíveis')
+
+    for item in colecao:
+        print('---'*15)
+        for chave in item:
+            print(f'\t{chave.capitalize()}:', item[chave])       
+    print('---'*15)
+
+
+def consultar_livros(books):
+    print('----'*15)
+    print('                      Iniciar consulta                      ')
+    print('----'*15)
+    search = str(input('Informe o nome do livro ou da editora: ')).capitalize()
+    livros_localizados = list()
+    
+    tam = len(books)
+    for c in range(tam):  
+        for chave, valor in books[c].items():
+            if search == valor:
+                livros_localizados.append(books[c])
+    
+    quant = len(livros_localizados)
+    for i in range(quant):
+        print(f'Livro nº {i+1}:', livros_localizados[i]['nome'])
+
+    print()
+    print(f'Total de livros localizados: {quant}')
+    print('----'*15)
+
+    while True:
+        cod = int(input('Selecione o livro que deseja pelo nº ou [999 para stop]: '))
+        if cod == 999:
+            break
+        if cod <= 0 or cod > quant:
+            print(f'ERRO! Não existe livro com este nº {cod} na lista! Tente novamente')
+        else:
+            exibicao = tela_lista(livros_localizados[cod-1]['nome'])
+            option = input(exibicao)
+            if option == 1:
+                print(livros_localizados[cod-1])
+
+
+
+def tela_lista(cod):
+    menu2 = f'======= Livro de {cod} Selecionado ======= \n' \
+        + '1 - Exibir detalhes \n' \
+        + '2 - Remover livro \n' \
+        + '3 - Editar informações \n' \
+        + '4 - Duplicar registro \n' \
+        + '0 - Finalizar \n' \
+        + '======================== \n' \
+        + 'opção >>> '
+    
+    return menu2 
+
+
+def detalhar_livro(valor):
+    print(valor)
+
+
+def exibir_livro(colecao_livros):
+    quant = len(colecao_livros)
+    print()
+    print(f'>> Foram encontrados {quant} livros')
+    print('----'*15)
+    #for livro in colecao_livros:
+    for i in range(quant):
+        print(f'Livro Nº: {i+1}')
+        for chave in colecao_livros[i]:
+            print(f'\t{chave.capitalize()}:', colecao_livros[i][chave]) 
+    
+        print('----'*15)
+
+
+def inicializar(arquivo):
+    livros = list()
+    if os.path.exists(arquivo):
+        arq = open(arquivo)
+
+        dados = arq.readline()
+        arq.close()
+
+        if dados:
+            livros = json.loads(dados)
+
+    return livros
+
+
+def finalizar(arquivo, libros):
+    dados = json.dumps(libros)
+    arq = open(arquivo, 'w')
+    arq.write(dados)
+    arq.close()
+
+main()
