@@ -164,8 +164,24 @@ def duplicar_livro(dict_livro, books):
 # Editar informações de livro cadastrado
 def editar_livro(dict_livro, books):
     print('>>>> Editando informações do livro .....')
-    for k in dict_livro.keys():
-        dict_livro[k] = input(f'{k}: ')
+
+    dict_livro['nome'] = str(input('Nome do livro: ')).title()
+    dict_livro['editora'] = str(input('Editora: ')).title()
+    dict_livro['volume'] = str(input('Volume: ')).capitalize()
+    dict_livro['ano'] = int(input('Ano de publicação: '))
+    dict_livro['valor'] = float(input('Qual o valor? R$ '))
+    dict_livro['digital'] = str(input('Livro digital? [Sim/Nao] ')).capitalize()
+    quant_autor = int(input('Quantos autores tem esse livro? '))
+    
+    dict_livro['autores'] = list()
+    for i in range(quant_autor):
+        autor = str(input(f'Nome do {i+1}º autor? ')).title()
+        dict_livro['autores'].append(autor)
+
+
+
+    """ for k in dict_livro.keys():
+        dict_livro[k] = input(f'{k}: ') """
     
     print('Informações do livro editada com sucesso!')
 
