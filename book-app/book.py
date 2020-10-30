@@ -35,9 +35,9 @@ def tela_opcoes():
 # Cadastrar um novo livro no bd
 def novo_livro():
     print('<< Preencha os dados para cadastrar novo livro >> \n')
-    nome = str(input('Nome do livro: ')).capitalize()
-    editora = str(input('Editora: ')).capitalize()
-    volume = str(input('Volume: '))
+    nome = str(input('Nome do livro: ')).title()
+    editora = str(input('Editora: ')).title()
+    volume = str(input('Volume: ')).capitalize()
     ano = int(input('Ano de publicação: '))
     valor = float(input('Qual o valor? R$ '))
     digital = str(input('Livro digital? [Sim/Nao] ')).capitalize()
@@ -45,7 +45,7 @@ def novo_livro():
     autores = list()
     
     for i in range(quant_autor):
-        autor = str(input(f'Nome do {i+1}º autor? ')).capitalize()
+        autor = str(input(f'Nome do {i+1}º autor? ')).title()
         autores.append(autor)
     
     livro = {'nome': nome, 'editora': editora, 'volume': volume, 'ano': ano,
@@ -71,7 +71,7 @@ def consultar_livros(books):
     print('----'*15)
     print('                      Iniciar pesquisa                      ')
     print('----'*15)
-    search = str(input('Informe o nome do livro ou da editora: ')).capitalize()
+    search = str(input('Informe o nome do livro ou da editora: ')).title()
     
     livros_localizados = list()
     tam = len(books)
@@ -110,21 +110,21 @@ def tela_lista(dict_livro, nome, cod):
     
     opcao = int(input(menu2))
     while opcao != 0: 
-        if opcao < 0 or opcao > 4:
-            print('Opção inválida! Tente novamente')
         if opcao == 0:
             break
         if opcao == 1:
-            detalhar = detalhar_livro(dict_livro, cod, opcao)
+            detalhar = detalhar_livro(dict_livro)
         if 1 < opcao <= 4:
             print('Função ainda não definida...')
+        if opcao < 0 or opcao > 4:
+            print('Opção inválida! Tente novamente')
             
         print()
         input('tecle <<enter>> para continuar... \n')
         opcao = int(input(menu2))
 
-
-def detalhar_livro(livro, cod, valor):
+# Exibir detalhes do livro escolhido
+def detalhar_livro(livro):
     for k, v in livro.items():
             print(f'\t{k.capitalize()}:', livro[k])
     print('============================================')
