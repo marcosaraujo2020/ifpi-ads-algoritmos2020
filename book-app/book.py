@@ -56,13 +56,14 @@ def novo_livro():
 def listar_livros(colecao):
     quant = len(colecao)
     print('===== Confira a coleção de nossos livros ===== \n')
-    print(f'Temos {quant} livros disponíveis')
+    print('Livros Disponíveis:')
 
     for item in colecao:
         print('---'*15)
         for chave in item:
             print(f'\t{chave.capitalize()}:', item[chave])       
     print('---'*15)
+    print(f'Total de {quant} livros foram encontrados.')
 
 # Faz busca por livros 
 def consultar_livros(books):
@@ -115,8 +116,12 @@ def tela_lista(dict_livro, books):
             detalhar = detalhar_livro(dict_livro)
         if opcao == 2:
             retirar = remover_livro(dict_livro, books)
-        if 2 < opcao <= 4:
-            print('Função ainda não definida...')
+        if opcao == 3:
+            editar = editar_livro(dict_livro, books)
+        if opcao == 4:
+            duplicar = duplicar_livro(dict_livro, books)
+        """ if 2 < opcao < 4:
+            print('Função ainda não definida...') """
         if opcao < 0 or opcao > 4:
             print('Opção inválida! Tente novamente')
             
@@ -130,7 +135,7 @@ def detalhar_livro(livro):
             print(f'\t{k.capitalize()}:', livro[k])
     print('============================================')
 
-
+# Remoção de livro da lista
 def remover_livro(dict_livro, books):  
     resp = ' '
     while resp not in 'SN':
@@ -144,8 +149,25 @@ def remover_livro(dict_livro, books):
         else:
             print('Livro não encontrato na lista!')
             break
-        
 
+# Adicionao o livro novamente na lista assim duplicando
+def duplicar_livro(dict_livro, books):
+    resp = ' '
+    while resp not in 'SN':
+        resp = str(input('Deseja adicionar esse livro novamente na lista? digite [S/N] ')).upper().strip()[0]
+        if resp == 'S':
+            books.append(dict_livro)
+            print('Livro adicionado com sucesso!')
+        if resp == 'N':
+            break
+
+# Editar informações de livro cadastrado
+def editar_livro(dict_livro, books):
+    print('>>>> Editando informações do livro .....')
+    for k in dict_livro.keys():
+        dict_livro[k] = input(f'{k}: ')
+    
+    print('Informações do livro editada com sucesso!')
 
 # Listar todos os livros cadastrados
 def exibir_livro(colecao_livros):
