@@ -2,12 +2,7 @@ import os
 import json
 
 def main():
-    # Inicializar
-    #livros = list()
-
-    arquivo = 'livros.bd'
-    libros = inicializar(arquivo)   
-
+    libros = inicializar('livros.bd')   #.bd é uma lista com dicionário
     menu = tela_opcoes()
     opcao = int(input(menu))
 
@@ -15,19 +10,18 @@ def main():
         if opcao == 1:
             livro = novo_livro()
             libros.append(livro)
-
         elif opcao == 2:
             conferir_livros = listar_livros(libros)
-
         elif opcao == 3:
             busca = consultar_livros(libros)
-
-        input('tecle <enter> para continuar...')
+        print()
+        input('tecle <<enter>> para continuar... \n')
+       
         opcao = int(input(menu))
 
-    finalizar(arquivo, libros)
+    finalizar('livros.bd', libros)
 
-
+# Menu Principal
 def tela_opcoes():
     menu = '======= App Book ======= \n' \
         + '1 - Cadastrar novo livro \n' \
@@ -36,10 +30,9 @@ def tela_opcoes():
         + '0 - Finalizar Aplicativo \n' \
         + '======================== \n' \
         + 'opção >>> '
-    
     return menu
 
-
+# Cadastrar um novo livro no bd
 def novo_livro():
     print('<< Preencha os dados para cadastrar novo livro >> \n')
     nome = str(input('Nome do livro: ')).capitalize()
@@ -55,20 +48,13 @@ def novo_livro():
         autor = str(input(f'Nome do {i+1}º autor? ')).capitalize()
         autores.append(autor)
     
-    livro = {
-        'nome': nome,
-        'editora': editora,
-        'volume': volume,
-        'ano': ano,
-        'valor': valor,
-        'digital': digital,
-        'autores': autores
-    }
+    livro = {'nome': nome, 'editora': editora, 'volume': volume, 'ano': ano,
+            'valor': valor, 'digital': digital, 'autores': autores}
 
     print('Livro cadastrado!')
     return livro
 
-
+# Exibir os livros cadastrados
 def listar_livros(colecao):
     quant = len(colecao)
     print('===== Confira a coleção de nossos livros ===== \n')
@@ -80,17 +66,17 @@ def listar_livros(colecao):
             print(f'\t{chave.capitalize()}:', item[chave])       
     print('---'*15)
 
-
+# Faz busca por livros 
 def consultar_livros(books):
     print('----'*15)
-    print('                      Iniciar consulta                      ')
+    print('                      Iniciar pesquisa                      ')
     print('----'*15)
     search = str(input('Informe o nome do livro ou da editora: ')).capitalize()
-    livros_localizados = list()
     
+    livros_localizados = list()
     tam = len(books)
     for c in range(tam):  
-        for chave, valor in books[c].items():
+        for valor in books[c].values():
             if search == valor:
                 livros_localizados.append(books[c])
     
@@ -103,42 +89,39 @@ def consultar_livros(books):
     print('----'*15)
 
     while True:
-        cod = int(input('Selecione o livro que deseja pelo nº ou [999 para stop]: '))
+        cod = int(input('Selecione o livro que deseja pelo nº ou [999 parar]: '))
         if cod == 999:
             break
-        if cod <= 0 or cod > quant:
-            print(f'ERRO! Não existe livro com este nº {cod} na lista! Tente novamente')
+        elif cod <= 0 or cod > quant:
+            print(f'ERRO! Não existe livro com o nº {cod} na lista! Tente novamente')
         else:
-            exibicao = tela_lista(livros_localizados[cod-1]['nome'])
-            option = input(exibicao)
-            if option == 1:
-                print(livros_localizados[cod-1])
-
-
-
-def tela_lista(cod):
-    menu2 = f'======= Livro de {cod} Selecionado ======= \n' \
+            exibir_menu = tela_lista(livros_localizados, livros_localizados[cod-1]['nome'], cod)
+        
+    
+def tela_lista(lista_livros, nome, cod):
+    input(f'======= Livro de {nome} Selecionado ======= \n' \
         + '1 - Exibir detalhes \n' \
         + '2 - Remover livro \n' \
         + '3 - Editar informações \n' \
         + '4 - Duplicar registro \n' \
         + '0 - Finalizar \n' \
-        + '======================== \n' \
-        + 'opção >>> '
+        + '============================================ \n' \
+        + 'opção >>> ' )
     
-    return menu2 
+    for k, v in lista_livros[cod-1].items():
+        print(f'\t{k.capitalize()}:', lista_livros[cod-1][k])
 
-
+    
 def detalhar_livro(valor):
     print(valor)
 
-
+# Listar todos os livros cadastrados
 def exibir_livro(colecao_livros):
     quant = len(colecao_livros)
     print()
     print(f'>> Foram encontrados {quant} livros')
     print('----'*15)
-    #for livro in colecao_livros:
+    
     for i in range(quant):
         print(f'Livro Nº: {i+1}')
         for chave in colecao_livros[i]:
@@ -146,7 +129,7 @@ def exibir_livro(colecao_livros):
     
         print('----'*15)
 
-
+# INICIO DO ARQUIVO
 def inicializar(arquivo):
     livros = list()
     if os.path.exists(arquivo):
@@ -160,7 +143,7 @@ def inicializar(arquivo):
 
     return livros
 
-
+# FECHAMENTO DO ARQUIVO
 def finalizar(arquivo, libros):
     dados = json.dumps(libros)
     arq = open(arquivo, 'w')
