@@ -117,7 +117,7 @@ def tela_lista(dict_livro, nome, cod):
         if opcao == 1:
             detalhar = detalhar_livro(dict_livro, cod, opcao)
         if 1 < opcao <= 4:
-            print('Ainda não definir novas funções')
+            print('Função ainda não definida...')
             
         print()
         input('tecle <<enter>> para continuar... \n')
@@ -127,7 +127,8 @@ def tela_lista(dict_livro, nome, cod):
 def detalhar_livro(livro, cod, valor):
     for k, v in livro.items():
             print(f'\t{k.capitalize()}:', livro[k])
-    
+    print('============================================')
+
 # Listar todos os livros cadastrados
 def exibir_livro(colecao_livros):
     quant = len(colecao_livros)
