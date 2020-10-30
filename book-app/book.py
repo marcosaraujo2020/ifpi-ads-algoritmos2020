@@ -95,26 +95,39 @@ def consultar_livros(books):
         elif cod <= 0 or cod > quant:
             print(f'ERRO! Não existe livro com o nº {cod} na lista! Tente novamente')
         else:
-            exibir_menu = tela_lista(livros_localizados, livros_localizados[cod-1]['nome'], cod)
+            exibir_menu = tela_lista(livros_localizados[cod-1], livros_localizados[cod-1]['nome'], cod)
         
     
-def tela_lista(lista_livros, nome, cod):
-    input(f'======= Livro de {nome} Selecionado ======= \n' \
+def tela_lista(dict_livro, nome, cod):
+    menu2 = f'======= Livro de {nome} Selecionado ======= \n' \
         + '1 - Exibir detalhes \n' \
         + '2 - Remover livro \n' \
         + '3 - Editar informações \n' \
         + '4 - Duplicar registro \n' \
         + '0 - Finalizar \n' \
         + '============================================ \n' \
-        + 'opção >>> ' )
+        + 'opção >>> '
     
-    for k, v in lista_livros[cod-1].items():
-        print(f'\t{k.capitalize()}:', lista_livros[cod-1][k])
+    opcao = int(input(menu2))
+    while opcao != 0: 
+        if opcao < 0 or opcao > 4:
+            print('Opção inválida! Tente novamente')
+        if opcao == 0:
+            break
+        if opcao == 1:
+            detalhar = detalhar_livro(dict_livro, cod, opcao)
+        if 1 < opcao <= 4:
+            print('Ainda não definir novas funções')
+            
+        print()
+        input('tecle <<enter>> para continuar... \n')
+        opcao = int(input(menu2))
 
+
+def detalhar_livro(livro, cod, valor):
+    for k, v in livro.items():
+            print(f'\t{k.capitalize()}:', livro[k])
     
-def detalhar_livro(valor):
-    print(valor)
-
 # Listar todos os livros cadastrados
 def exibir_livro(colecao_livros):
     quant = len(colecao_livros)
