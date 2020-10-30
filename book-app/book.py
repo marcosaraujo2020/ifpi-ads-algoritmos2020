@@ -15,10 +15,8 @@ def main():
         elif opcao == 3:
             busca = consultar_livros(libros)
         print()
-        input('tecle <<enter>> para continuar... \n')
-       
+        input('tecle <<enter>> para continuar... \n')       
         opcao = int(input(menu))
-
     finalizar('livros.bd', libros)
 
 # Menu Principal
@@ -95,10 +93,11 @@ def consultar_livros(books):
         elif cod <= 0 or cod > quant:
             print(f'ERRO! Não existe livro com o nº {cod} na lista! Tente novamente')
         else:
-            exibir_menu = tela_lista(livros_localizados[cod-1], livros_localizados[cod-1]['nome'], cod)
+            exibir_menu = tela_lista(livros_localizados[cod-1], books)
         
-    
-def tela_lista(dict_livro, nome, cod):
+ # Menu para informações espicífica do livro pesquisado   
+def tela_lista(dict_livro, books):
+    nome = dict_livro['nome']
     menu2 = f'======= Livro de {nome} Selecionado ======= \n' \
         + '1 - Exibir detalhes \n' \
         + '2 - Remover livro \n' \
@@ -114,7 +113,9 @@ def tela_lista(dict_livro, nome, cod):
             break
         if opcao == 1:
             detalhar = detalhar_livro(dict_livro)
-        if 1 < opcao <= 4:
+        if opcao == 2:
+            retirar = remover_livro(dict_livro, books)
+        if 2 < opcao <= 4:
             print('Função ainda não definida...')
         if opcao < 0 or opcao > 4:
             print('Opção inválida! Tente novamente')
@@ -128,6 +129,23 @@ def detalhar_livro(livro):
     for k, v in livro.items():
             print(f'\t{k.capitalize()}:', livro[k])
     print('============================================')
+
+
+def remover_livro(dict_livro, books):
+    resp = ' '
+    while resp not in 'SN':
+        if dict_livro in books:
+            resp = str(input('Tem certeza que deseja remover este livro? [S/N]')).upper().strip()[0]
+            if resp == 'S':
+                books.remove(dict_livro)
+                print('Livro removido com sucesso!')
+            else:
+                break
+        else:
+            print('Livro não encontrato na lista!')
+            break
+        
+
 
 # Listar todos os livros cadastrados
 def exibir_livro(colecao_livros):
@@ -148,13 +166,11 @@ def inicializar(arquivo):
     livros = list()
     if os.path.exists(arquivo):
         arq = open(arquivo)
-
         dados = arq.readline()
         arq.close()
 
         if dados:
             livros = json.loads(dados)
-
     return livros
 
 # FECHAMENTO DO ARQUIVO
@@ -163,5 +179,6 @@ def finalizar(arquivo, libros):
     arq = open(arquivo, 'w')
     arq.write(dados)
     arq.close()
+
 
 main()
