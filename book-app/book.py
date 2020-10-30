@@ -131,15 +131,15 @@ def detalhar_livro(livro):
     print('============================================')
 
 
-def remover_livro(dict_livro, books):
+def remover_livro(dict_livro, books):  
     resp = ' '
     while resp not in 'SN':
         if dict_livro in books:
-            resp = str(input('Tem certeza que deseja remover este livro? [S/N]')).upper().strip()[0]
+            resp = str(input('Tem certeza que deseja remover este livro? Digite [S/N] ')).upper().strip()[0]
             if resp == 'S':
                 books.remove(dict_livro)
                 print('Livro removido com sucesso!')
-            else:
+            if resp == 'N':
                 break
         else:
             print('Livro não encontrato na lista!')
