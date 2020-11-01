@@ -74,7 +74,7 @@ def consultar_livros(books):
     
     livros_localizados = list()
     tam = len(books)
-    for c in range(tam):  
+    for c in range(tam):
         for valor in books[c].values():
             if search == valor:
                 livros_localizados.append(books[c])
