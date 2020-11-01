@@ -50,22 +50,25 @@ def main():
         if opcao == 1:
             votos_coligacao(coligacoes, candidatos)
         elif opcao == 2:
-            pass
+            votos_por_vereador(candidatos)
         
         print()
         input('Tecle <<enter>> para continuar.... \n')
         opcao = int(input(menu))
 
+    arquivo1.close()
+    arquivo2.close()
 
 def menu_principal():
     menu = '============================================== \n'
     menu += '         TSE Eleições 2012 - Teresina \n'
     menu += '============================================== \n'
     menu += '1 - Mostrar votos por coligação \n'
-    menu += '2 - Consultar vereador por nome ou numero \n'
-    menu += '3 - Consultar vagas por coligação \n'
-    menu += '4 - Consultar total de votos da eleição \n'
-    menu += '5 - Consultar total de candidatos na disputa \n'
+    menu += '2 - Listar votos dos candidatos \n'
+    menu += '3 - Consultar vereador por nome ou numero \n'
+    menu += '4 - Consultar vagas por coligação \n'
+    menu += '5 - Consultar total de votos da eleição \n'
+    menu += '6 - Consultar total de candidatos na disputa \n'
     menu += '0 - Encerrar aplicativo \n'
     menu += '============================================== \n'
     menu += 'Digite uma opção >> '
@@ -95,10 +98,13 @@ def votos_coligacao(coligacoes, candidatos):
     print('----------------------------------------------')
 
 # Lista votos por vereador
-def votos_por_vereador():
+def votos_por_vereador(candidatos):
+    print('----------------------------------------------')
+    print(f'{"Nome":>20}           | {"Nº de votos":>8}')
+    print('----------------------------------------------')
     for vereador in candidatos:
-        print(f'{vereador["nome"]} = {vereador["total_votos"]} votos')
-
+        print(f'{vereador["nome"]:>30} = {vereador["total_votos"]:>5}')
+    print('----------------------------------------------')
 
     # QE >> Quociente Eleitoral 
     # QE = nt_votos / num_vagas      
@@ -111,11 +117,6 @@ def votos_por_vereador():
     
            
     
-    
-
-
-    arquivo1.close()
-    arquivo2.close()
 
 # INICIO DO ARQUIVO
 """ def inicializar(arquivo):
