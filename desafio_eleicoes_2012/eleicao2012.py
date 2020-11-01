@@ -5,6 +5,9 @@ import json
 # Organizando as ideias ... 
 
 def main():
+
+    #part_colig = inicializar('coligacoes.bd')
+
     arquivo1 = open('partidos_coligacoes_the_2012.csv')
     arquivo2 = open('candidatos_e_votos_vereador_THE_2012.csv')
  
@@ -19,8 +22,6 @@ def main():
         coligacao['qtd_vagas'] = 0
         coligacao['votos_sobra_total'] = 0
         coligacoes.append(coligacao)
-        #print(f'{linha.strip()}') 
-    #print(coligacoes)
 
     # Lista matriz com vetores de vereadores e informações convertidas do arquivo2.csv
     matriz = list()
@@ -39,9 +40,6 @@ def main():
         candidato['total_votos'] = matriz[i][4].strip()
         tot_votos += int(matriz[i][4].strip())
         candidatos.append(candidato)
-    #print(candidatos)
-    #print(f'O total de vereadores é de {len(candidatos)}.')
-    #print(f'O total de votos válidos de todos os candidatos foram de {tot_votos} votos.')
 
     menu = menu_principal()
     opcao = int(input(menu))
@@ -49,15 +47,31 @@ def main():
     while opcao != 0:
         if opcao == 1:
             votos_coligacao(coligacoes, candidatos)
-        elif opcao == 2:
+        if opcao == 2:
             votos_por_vereador(candidatos)
+        if opcao == 3:
+            pass
+            #consultar_por_vereador(candidatos)
+        if opcao == 4:
+            votos = votos_coligacao(coligacoes, candidatos)
+            valor_tot = votos_total_eleicao(candidatos)
+            vagas_por_coligacao(votos, valor_tot)
+        if opcao == 5:
+            votos_total_eleicao(candidatos)
+        if opcao == 6:
+            total_candidatos(candidatos)
+        if opcao < 0 or opcao > 6:
+            print('Opção inválida! Tente novamente')
         
         print()
         input('Tecle <<enter>> para continuar.... \n')
         opcao = int(input(menu))
 
+    #part_colig.append(coligacoes)
     arquivo1.close()
     arquivo2.close()
+    #finalizar('coligacoes.bd', part_colig)
+
 
 def menu_principal():
     menu = '============================================== \n'
@@ -97,6 +111,8 @@ def votos_coligacao(coligacoes, candidatos):
         print(f'{lista_coligacoes[i]["coligacao"]:>20} = {lista_coligacoes[i]["quant_votos"]:>8}')
     print('----------------------------------------------')
 
+    return lista_coligacoes
+
 # Lista votos por vereador
 def votos_por_vereador(candidatos):
     print('----------------------------------------------')
@@ -106,35 +122,73 @@ def votos_por_vereador(candidatos):
         print(f'{vereador["nome"]:>30} = {vereador["total_votos"]:>5}')
     print('----------------------------------------------')
 
-    # QE >> Quociente Eleitoral 
-    # QE = nt_votos / num_vagas      
-    #QE = tot_votos // 29
-    #print(f'O Quociente Eleitoral: {QE}')
-    
 
-    # QP >> Quociente Partidario
-    # QP = votos_partido // QE    >> para saber o número de vagas do partido ou coligação    
-    
-           
-    
+def votos_total_eleicao(candidatos):
+    votos_total = 0
+    tam = len(candidatos)
+    for i in range(tam):
+        n_voto = int(candidatos[i]['total_votos'])
+        votos_total += n_voto
 
+    print('----------------------------------------------')
+    print(f'Total de votos válidos da eleiçao: {votos_total}')
+    print('----------------------------------------------')
+
+    return votos_total
+
+def vagas_por_coligacao(votos_partidos, valor_tot):
+    quociente_eleitoral = valor_tot // 29       
+    vagas_partidos = list()
+    for i in votos_partidos:
+        vagas_colig = dict()
+        for v in i:
+            quociente_partidario = i['quant_votos'] // quociente_eleitoral
+        
+        vagas_colig['coligacao'] = i['coligacao']
+        vagas_colig['quant_vagas'] = quociente_partidario
+        vagas_partidos.append(vagas_colig)
+
+    print('----------------------------------------------')
+    print(f'{"Partido/Coligação":>20}  | {"Nº de vagas":>15}')
+    print('----------------------------------------------')
+    tot = 0
+    for i in range(len(vagas_partidos)):
+        print(f'{vagas_partidos[i]["coligacao"]:>20} = {vagas_partidos[i]["quant_vagas"]:>8}')
+        tot += vagas_partidos[i]['quant_vagas']
+    
+    print()
+    print(f'{"Total de vagas":>20} = {tot:>8}')
+    print('----------------------------------------------')
+
+
+
+def total_candidatos(candidatos):
+    tot_cand = len(candidatos)
+    print('----------------------------------------------')
+    print(f'Total de candidatos na disputa eleitoral: {tot_cand}')
+    print('----------------------------------------------')
+
+         
+    
+'''
 # INICIO DO ARQUIVO
-""" def inicializar(arquivo):
-    candidatos = list()
+def inicializar(arquivo):
+    coligacoes = list()
     if os.path.exists(arquivo):
         arq = open(arquivo)
         dados = arq.readline()
         arq.close()
 
         if dados:
-            candidatos = json.loads(dados)
-    return candidatos
+            coligacoes = json.loads(dados)
+    return coligacoes
 
 # FECHAMENTO DO ARQUIVO
-def finalizar(arquivo, cand_vereador):
-    dados = json.dumps(cand_vereador)
+def finalizar(arquivo, part_colig):
+    dados = json.dumps(part_colig)
     arq = open(arquivo, 'w')
     arq.write(dados)
-    arq.close() """
+    arq.close()
+'''
 
 main()
