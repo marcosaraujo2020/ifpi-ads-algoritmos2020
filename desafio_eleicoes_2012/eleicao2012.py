@@ -1,6 +1,9 @@
 import os
 import json
 
+# Atividade em edição ainda .... 31/10/2020 
+# Organizando as ideias ... 
+
 def main():
     arquivo1 = open('partidos_coligacoes_the_2012.csv')
     arquivo2 = open('candidatos_e_votos_vereador_THE_2012.csv')
