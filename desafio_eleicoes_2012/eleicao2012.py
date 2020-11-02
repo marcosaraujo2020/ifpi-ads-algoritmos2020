@@ -50,8 +50,7 @@ def main():
         if opcao == 2:
             votos_por_vereador(candidatos)
         if opcao == 3:
-            pass
-            #consultar_por_vereador(candidatos)
+            consultar_por_vereador(candidatos)
         if opcao == 4:
             votos = votos_coligacao(coligacoes, candidatos)
             valor_tot = votos_total_eleicao(candidatos)
@@ -139,6 +138,23 @@ def votos_total_eleicao(candidatos):
     print('----------------------------------------------')
 
     return votos_total
+
+
+def consultar_por_vereador(candidatos):
+    print('----------------------------------------------')
+    print(f'{"Iniciar pesquisa......":>34}')
+    print('----------------------------------------------')
+    nome_numero = str(input('Informe "Nome" ou "Número" do candidato: ').upper())
+    print('----------------------------------------------')
+    print(f'{"Nome":>17} {"|":>15} {"Número":>8}')
+    print('----------------------------------------------')
+    for ver in candidatos:
+        if nome_numero in ver['nome'] or nome_numero in str(ver['numero']):
+            nome = ver['nome']
+            numero = ver['numero']
+            print(f'{nome:>30} {numero:>10}')
+    print('----------------------------------------------')
+
 
 def vagas_por_coligacao(votos_partidos, valor_tot):
     quociente_eleitoral = valor_tot // 29       
