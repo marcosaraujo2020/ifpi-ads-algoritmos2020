@@ -92,6 +92,7 @@ def menu_principal():
 #Contabilizar votos de partidos ou coligação
 def votos_coligacao(coligacoes, candidatos):
     lista_coligacoes = list()
+    valores = list()
     for chave in coligacoes:
         votos_coligacao = dict()
         votos_partido = 0
@@ -101,14 +102,17 @@ def votos_coligacao(coligacoes, candidatos):
                 votos_partido += votos
         votos_coligacao['coligacao'] = chave['coligacao']
         votos_coligacao['quant_votos'] = votos_partido
+        valores.append(votos_partido)
 
         lista_coligacoes.append(votos_coligacao)
     
+    resultado = ordenar_valores(valores, lista_coligacoes)
+
     print('----------------------------------------------')
     print(f'{"Partido/Coligação":>20}  | {"Total de votos":>15}')
     print('----------------------------------------------')
-    for i in range(len(lista_coligacoes)):
-        print(f'{lista_coligacoes[i]["coligacao"]:>20} = {lista_coligacoes[i]["quant_votos"]:>8}')
+    for i in range(len(resultado)):
+        print(f'{resultado[i]["coligacao"]:>20} = {resultado[i]["quant_votos"]:>8}')
     print('----------------------------------------------')
 
     return lista_coligacoes
@@ -168,7 +172,19 @@ def total_candidatos(candidatos):
     print(f'Total de candidatos na disputa eleitoral: {tot_cand}')
     print('----------------------------------------------')
 
-         
+
+def ordenar_valores(valores, lista_coligacoes):
+    valores.sort(reverse=True)
+    nova_lista = list()
+    for v in valores:
+        novo_dicionario = dict()
+        for num in lista_coligacoes:
+            if v == num['quant_votos']:
+                novo_dicionario['coligacao'] = num['coligacao']
+                novo_dicionario['quant_votos'] = v
+        nova_lista.append(novo_dicionario)
+
+    return nova_lista
     
 '''
 # INICIO DO ARQUIVO
