@@ -1,7 +1,7 @@
 import os
 import json
 
-# Atividade em edição ainda .... 01/11/2020 
+# Atividade em edição ainda .... 02/11/2020 
 # Organizando as ideias ... 
 
 def main():
@@ -179,7 +179,6 @@ def vagas_por_coligacao(votos_partidos, valor_tot):
     print()
     print(f'{"Total de vagas":>20} = {tot:>8}')
     print('----------------------------------------------')
-
 
 
 def total_candidatos(candidatos):
